@@ -13,3 +13,11 @@ li {
   padding: 20px;
   list-style: none;
 }
+
+.js-title {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}

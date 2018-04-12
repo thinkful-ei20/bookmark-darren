@@ -5,15 +5,21 @@ const store = (function(){
  
 
   const addItem = function(item) {
-    item.collapsed = false;
+    item.collapsed = true;
     this.items.push(item);    
   };
 
   const toggleCollapsed = function(id) {
     let currentItem = this.items.find(bookmark => bookmark.id === id);
     currentItem.collapsed = !currentItem.collapsed;
-    console.log(currentItem);
+    console.log(currentItem.collapsed);
   };
+
+  const deleteBookmark = function(id) {
+    let currentItem = this.items.find(bookmark => bookmark.id === id);
+  };
+
+
 
 
 
