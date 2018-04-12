@@ -1,5 +1,5 @@
 'use strict';
-/* global  $ store */
+/* global  $ store api */
 
 // eslint-disable-next-line no-unused-vars
 const bookmarkList = (function () {
@@ -56,7 +56,12 @@ const bookmarkList = (function () {
     $('.js-bookmark-list').on('click', '.js-delete-button', event => {
       const id = getItemIdFromElement(event.currentTarget);
       console.log('DELETE CLICKED');
+      api.deleteBookmark(id, ()=> {
+        store.deleteBookmarkStore(id);
+        render();
+      });
       
+
     });
   }
 

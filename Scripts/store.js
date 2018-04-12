@@ -15,8 +15,10 @@ const store = (function(){
     console.log(currentItem.collapsed);
   };
 
-  const deleteBookmark = function(id) {
-    let currentItem = this.items.find(bookmark => bookmark.id === id);
+  const deleteBookmarkStore = function(id) {
+    let currentItem = this.items.find(bookmark => bookmark.id === id);    
+    let currentIndex = this.items.indexOf(currentItem);
+    this.items.splice(currentIndex,1);
   };
 
 
@@ -47,6 +49,7 @@ const store = (function(){
 
     addItem,
     toggleCollapsed,
+    deleteBookmarkStore,
     
     // bookmarkItems: [ {},{},{expanded: undefined} ],
     // addingState: T/F, // true --- hide “adding-false class” 
