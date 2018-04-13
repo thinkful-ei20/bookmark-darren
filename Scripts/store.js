@@ -11,7 +11,8 @@ const store = (function(){
 
   const toggleCollapsed = function(id) {
     let currentItem = this.items.find(bookmark => bookmark.id === id);
-    currentItem.collapsed = !currentItem.collapsed;    
+    currentItem.collapsed = !currentItem.collapsed;
+    console.log('toggle collapesd ran!!!!!!!!!!!!!!!!');    
   };
 
   const deleteBookmarkStore = function(id) {
@@ -26,6 +27,20 @@ const store = (function(){
     console.log(this.creatingState);
   };
 
+  // const filterRatingStore = function(ratings){
+  //   console.log(this.items);
+  //   let filteredItems = this.items.filter(item =>
+      
+  //   {console.log(item);
+  //     console.log(ratings);
+  //     console.log(item.rating >= ratings);
+  //     return item.rating >= ratings;} 
+  //   );
+  //   console.log('filter ran from store');
+  //   console.log(filteredItems);
+  //   this.items = filteredItems;
+  // };
+
 
 
 
@@ -34,7 +49,7 @@ const store = (function(){
   return {
     items: [],
     creatingState: false,
-    filterLevel: null,
+    filterLevel: 1,
     createFormChecker: true, 
 
 
@@ -42,6 +57,7 @@ const store = (function(){
     toggleCollapsed,
     deleteBookmarkStore,
     switchCreatingState, 
+    // filterRatingStore,
     
   };  
 }());

@@ -7,7 +7,7 @@ const bookmarkList = (function () {
   function generateItemElement(item) {    
     return `
       <li class="js-item-element" data-item-id="${item.id}">         
-        <h3 class="js-title">${item.title} </h3>      
+        <h3 class="js-title" role="button">${item.title} </h3>      
         <div class="rating">Rating: ${item.rating} stars</div> 
         <div class="${item.collapsed ? 'hidden' : ''}">               
           <p>${item.desc}</p>
@@ -24,14 +24,14 @@ const bookmarkList = (function () {
       <input class="create-title" type="text" placeholder="title">
       <input class="create-url" type="text" placeholder="must enter http://">
       <input class="create-description" type="text" placeholder="describe your link">
-      <select name="rating" class="create-rating">
-          <option value="1">1 star</option>
-          <option value="2">2 stars</option>
-          <option value="3">3 stars</option>
-          <option value="4">4 stars</option>
-          <option value="5">5 stars</option>
+      <select role="listbox" name="rating" class="create-rating">          
+          <option value="1" role="option">1 star</option>
+          <option value="2" role="option">2 stars</option>
+          <option value="3" role="option">3 stars</option>
+          <option value="4" role="option">4 stars</option>
+          <option value="5" role="option">5 stars</option>
         </select>
-      <button class="create-submit-button">Create Bookmark!</button>
+      <button class="create-submit-button" type="submit">Create Bookmark!</button>
     </form>
     `;
   }
@@ -47,12 +47,19 @@ const bookmarkList = (function () {
   }
 
   function render() {
+    
     let items = store.items;  
-    const checkCreatState = generateCreateBookmarkForm();
+    const checkCreateState = generateCreateBookmarkForm();
 
     if (store.creatingState) {
-      $('.create-form').html(checkCreatState);
+      $('.create-form').html(checkCreateState);
+      console.log(store.creatingState);
     }
+
+    
+    items = items.filter(elem => elem.rating >= store.filterLevel);
+    console.log('Filtering:', store.filterLevel);
+    
     
     console.log('render ran');
     const bookmarkListString = generateBookmarkItemsString(items);
@@ -116,26 +123,29 @@ const bookmarkList = (function () {
       const rating = $('.create-rating').val();
       
       // if (verifyFormSubmit(title,url,description,rating)) {
-      if(store.items){
-        const formData = {
-          "title": title,
-          "url": url,
-          "desc": description,
-          "rating": rating
-        };
+      // if(store.items){
+      const formData = {
+        'title': title,
+        'url': url,
+        'desc': description,
+        'rating': rating
+      };
 
-        console.log(formData);
+      console.log(formData);    
 
-        const refresh = function() {
-          api.getItems(store.switchCreatingState());          
-        };
-        render();
-        api.createBookmark(formData,refresh);        
+      api.createBookmark(formData, () => {
+        store.switchCreatingState();
+        api.getItems(items => {
+          store.items = [];                             
+          items.forEach((item) => store.addItem(item));
+          render();
+        });          
+      });        
 
-      } else {
-        store.createFormChecker = false;
-        render();
-      }     
+      // } else {
+      //   store.createFormChecker = false;
+      //   render();
+      // }     
     });
   }
 
@@ -148,8 +158,14 @@ const bookmarkList = (function () {
   function filterByRating() {
     $('.container').on('click', '.select-rating-filter', event=> {
       console.log('filter selector clicked!!!');
-      const filterValue = $('.select-rating-filter option:selected').val();
-      console.log(filterValue);
+      const filterValue = +$('.select-rating-filter option:selected').val();
+      
+      store.filterLevel = filterValue;
+      console.log('Log from filerByRating fx',store.filterLevel);
+
+      // store.filterRatingStore(filterValue);
+      render();
+
     });
   }
 
@@ -165,8 +181,7 @@ const bookmarkList = (function () {
     generateCreateBookmarkForm();
     handleCreateFormSubmit();
     // verifyFormSubmit();
-    filterByRating();
-    
+    filterByRating();    
    
   }
 
