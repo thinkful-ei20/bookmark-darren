@@ -4,10 +4,8 @@
 // eslint-disable-next-line no-unused-vars
 const bookmarkList = (function () {
 
-  function generateItemElement(item) {
-    
+  function generateItemElement(item) {    
     return `
-      
       <li class="js-item-element" data-item-id="${item.id}">         
         <h3 class="js-title">${item.title} </h3>      
         <div class="rating">Rating: ${item.rating} stars</div> 
@@ -17,9 +15,7 @@ const bookmarkList = (function () {
           <button class="js-delete-button">DELETE</button>
         </div>
       </li>
-    `;
-    
-    
+    `;  
   }
   
   function generateCreateBookmarkForm() {
@@ -134,15 +130,12 @@ const bookmarkList = (function () {
           api.getItems(store.switchCreatingState());          
         };
         render();
-        api.createBookmark(formData,refresh);
-        
+        api.createBookmark(formData,refresh);        
 
       } else {
         store.createFormChecker = false;
         render();
-      }
-      
-      
+      }     
     });
   }
 
@@ -150,6 +143,14 @@ const bookmarkList = (function () {
     return $(item)
       .closest('.js-item-element')
       .data('item-id');
+  }
+
+  function filterByRating() {
+    $('.container').on('click', '.select-rating-filter', event=> {
+      console.log('filter selector clicked!!!');
+      const filterValue = $('.select-rating-filter option:selected').val();
+      console.log(filterValue);
+    });
   }
 
 
@@ -164,6 +165,7 @@ const bookmarkList = (function () {
     generateCreateBookmarkForm();
     handleCreateFormSubmit();
     // verifyFormSubmit();
+    filterByRating();
     
    
   }

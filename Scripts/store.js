@@ -21,6 +21,7 @@ const store = (function(){
   };
 
   const switchCreatingState = function() {
+    console.log(this.creatingState);
     this.creatingState = !this.creatingState;
     console.log(this.creatingState);
   };
