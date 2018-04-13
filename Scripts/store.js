@@ -31,7 +31,7 @@ const store = (function(){
     items: [],
     creatingState: false,
     filterLevel: 1,
-    createFormChecker: true, 
+    formChecker: true, 
 
 
     addItem,

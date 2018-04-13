@@ -36,8 +36,12 @@ const bookmarkList = (function () {
     `;
   }
 
+  function generateErrorCreatBookmarkForm(){
+    return '<p>ERROR OCCURRED ON FORM SUBMIT!!!</p>';
+  }
+
   //create generate function to create div that has error button
-  //  and has a listener on button and sets createFormChecker to true.
+  //  and has a listener on button and sets store.formChecker to true.
   //and renders
 
 
@@ -47,6 +51,8 @@ const bookmarkList = (function () {
   }
 
   function render() {
+
+    console.log(store.formChecker);
     
     let items = store.items;  
     const checkCreateState = generateCreateBookmarkForm();
@@ -97,7 +103,7 @@ const bookmarkList = (function () {
   }
 
   // function verifyFormSubmit(title,url,description,rating) {
-  //   if (!url.length > 4 || !url.included('http')) {
+  //   if (!url.length > 4 || !url.includes('http')) {
   //     return false;
   //   }
   //   if (!title.length > 1) {
@@ -121,32 +127,32 @@ const bookmarkList = (function () {
       const description = $('.create-description').val();      
       const rating = $('.create-rating').val();
       
-      // if (verifyFormSubmit(title,url,description,rating)) {
-      // if(store.items){
-      const formData = {
-        'title': title,
-        'url': url,
-        'desc': description,
-        'rating': rating
-      };
+      // if (verifyFormSubmit(title,url,description,rating)) {      
+        const formData = {
+          'title': title,
+          'url': url,
+          'desc': description,
+          'rating': rating
+        };
 
-      console.log(formData);    
+        console.log(formData);    
 
-      api.createBookmark(formData, () => {
+        api.createBookmark(formData, () => {
         // store.switchCreatingState();
-        api.getItems(items => {
-          store.items = [];                             
-          items.forEach((item) => store.addItem(item));          
-          render();
-        });          
-      });        
+          api.getItems(items => {
+            store.items = [];                             
+            items.forEach((item) => store.addItem(item));          
+            render();
+          });          
+        });    
+      // } else {
+      //   store.formChecker = false;
+      //   render();
+      // }     
 
       store.creatingState = !store.creatingState;
       render();
-      // } else {
-      //   store.createFormChecker = false;
-      //   render();
-      // }      
+           
     });    
   }
 
@@ -181,7 +187,8 @@ const bookmarkList = (function () {
     generateCreateBookmarkForm();
     handleCreateFormSubmit();
     // verifyFormSubmit();
-    filterByRating();    
+    filterByRating(); 
+    generateErrorCreatBookmarkForm();   
    
   }
 
