@@ -22,7 +22,7 @@ const bookmarkList = (function () {
     return `
     <form class="js-create-form">
       <input class="create-title" type="text" placeholder="title">
-      <input class="create-url" type="text" placeholder="must enter http://">
+      <input class="create-url" type="text" placeholder="must enter http://" value="http://">
       <input class="create-description" type="text" placeholder="describe your link">
       <select role="listbox" name="rating" class="create-rating">          
           <option value="1" role="option">1 star</option>
@@ -37,7 +37,7 @@ const bookmarkList = (function () {
   }
 
   function generateErrorCreatBookmarkForm(){
-    return '<p>ERROR OCCURRED ON FORM SUBMIT!!!</p>';
+    return '<p>Sorry, error occurred on form submit, please try again.</p>';
   }
 
   //create generate function to create div that has error button
