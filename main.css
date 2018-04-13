@@ -21,3 +21,10 @@ li {
 .hidden {
   display: none;
 }
+
+.js-create-form {
+  margin-bottom: 20px;
+  border: 1px solid grey;
+  padding: 20px;
+  list-style: none;
+}

@@ -11,8 +11,7 @@ const store = (function(){
 
   const toggleCollapsed = function(id) {
     let currentItem = this.items.find(bookmark => bookmark.id === id);
-    currentItem.collapsed = !currentItem.collapsed;
-    console.log(currentItem.collapsed);
+    currentItem.collapsed = !currentItem.collapsed;    
   };
 
   const deleteBookmarkStore = function(id) {
@@ -21,19 +20,10 @@ const store = (function(){
     this.items.splice(currentIndex,1);
   };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+  const switchCreatingState = function() {
+    this.creatingState = !this.creatingState;
+    console.log(this.creatingState);
+  };
 
 
 
@@ -42,22 +32,15 @@ const store = (function(){
 
   return {
     items: [],
-    addingState: false,
+    creatingState: false,
     filterLevel: null,
-    createFormChecker: false, 
+    createFormChecker: true, 
 
 
     addItem,
     toggleCollapsed,
     deleteBookmarkStore,
+    switchCreatingState, 
     
-    // bookmarkItems: [ {},{},{expanded: undefined} ],
-    // addingState: T/F, // true --- hide “adding-false class” 
-    //             // false--- unhide creatForm
-    // filterLevel: null , 1,2,3,4,5,
-    // createFormCheck: false,
-      
-      
-  };
-  
+  };  
 }());

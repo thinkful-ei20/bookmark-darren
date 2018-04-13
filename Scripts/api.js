@@ -10,20 +10,29 @@ const api = (function () {
     $.getJSON(`${BASE_URL}`, callback);
   }
 
-  const deleteBookmark = function(id,callback) {
-    
+  const deleteBookmark = function(id,callback) {    
     $.ajax({
       url: `${BASE_URL}/${id}`,
-      method: 'DELETE',      
+      method: 'DELETE',            
       data: JSON.stringify(id),
-      success: callback,
-      
+      success: callback,      
+    });
+  };
+
+  const createBookmark = function(newData,callback) {
+    $.ajax({
+      url: `${BASE_URL}`,
+      method: 'POST',  
+      contentType: 'application/json',    
+      data: JSON.stringify(newData),
+      success: callback,      
     });
   };
 
   return {
     getItems,
-    deleteBookmark
+    deleteBookmark,
+    createBookmark
   };
 
 }());
