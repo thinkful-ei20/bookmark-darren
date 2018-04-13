@@ -57,6 +57,12 @@ const bookmarkList = (function () {
     let items = store.items;  
     const checkCreateState = generateCreateBookmarkForm();
 
+    if(!store.formChecker) {
+      $('.create-failure').html(generateErrorCreatBookmarkForm());
+    } else {
+      $('.create-failure').html('');
+    }
+
     if (store.creatingState) {
       $('.create-form').html(checkCreateState);      
     } else {
@@ -98,6 +104,7 @@ const bookmarkList = (function () {
     $('.container').on('click','.create-bookmark', event=> {
       event.preventDefault();     
       store.switchCreatingState();
+      store.formChecker = true;
       render();
     });
   }
@@ -121,6 +128,7 @@ const bookmarkList = (function () {
   function handleCreateFormSubmit() {
     $('.container').on('click', '.create-submit-button', event => {
       event.preventDefault();
+      store.formChecker = true;  
       console.log('creat button slicks@');
       const title = $('.create-title').val();
       const url = $('.create-url').val();
@@ -128,23 +136,30 @@ const bookmarkList = (function () {
       const rating = $('.create-rating').val();
       
       // if (verifyFormSubmit(title,url,description,rating)) {      
-        const formData = {
-          'title': title,
-          'url': url,
-          'desc': description,
-          'rating': rating
-        };
+      const formData = {
+        'title': title,
+        'url': url,
+        'desc': description,
+        'rating': rating
+      };
 
-        console.log(formData);    
+      console.log(formData);   
+      
+      const successCall = function() {  
+        api.getItems(items => {
+          store.items = [];                             
+          items.forEach((item) => store.addItem(item));          
+          render();
+        });          
+      };
+      
+      const failureCall = function(){
+        console.log('FAILURE CALL RAN');
+        store.formChecker = false;        
+        render();
+      };
 
-        api.createBookmark(formData, () => {
-        // store.switchCreatingState();
-          api.getItems(items => {
-            store.items = [];                             
-            items.forEach((item) => store.addItem(item));          
-            render();
-          });          
-        });    
+      api.createBookmark(formData, successCall, failureCall);    
       // } else {
       //   store.formChecker = false;
       //   render();

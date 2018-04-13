@@ -19,13 +19,14 @@ const api = (function () {
     });
   };
 
-  const createBookmark = function(newData,callback) {
+  const createBookmark = function(newData,success_callback,failure_callback) {
     $.ajax({
       url: `${BASE_URL}`,
       method: 'POST',  
       contentType: 'application/json',    
       data: JSON.stringify(newData),
-      success: callback,      
+      success: success_callback, 
+      error: failure_callback,      
     });
   };
 
