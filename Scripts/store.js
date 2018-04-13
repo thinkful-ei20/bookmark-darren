@@ -27,25 +27,6 @@ const store = (function(){
     console.log(this.creatingState);
   };
 
-  // const filterRatingStore = function(ratings){
-  //   console.log(this.items);
-  //   let filteredItems = this.items.filter(item =>
-      
-  //   {console.log(item);
-  //     console.log(ratings);
-  //     console.log(item.rating >= ratings);
-  //     return item.rating >= ratings;} 
-  //   );
-  //   console.log('filter ran from store');
-  //   console.log(filteredItems);
-  //   this.items = filteredItems;
-  // };
-
-
-
-
-
-
   return {
     items: [],
     creatingState: false,

@@ -52,10 +52,10 @@ const bookmarkList = (function () {
     const checkCreateState = generateCreateBookmarkForm();
 
     if (store.creatingState) {
-      $('.create-form').html(checkCreateState);
-      console.log(store.creatingState);
-    }
-
+      $('.create-form').html(checkCreateState);      
+    } else {
+      $('.create-form').html('');
+    }   
     
     items = items.filter(elem => elem.rating >= store.filterLevel);
     console.log('Filtering:', store.filterLevel);
@@ -90,8 +90,7 @@ const bookmarkList = (function () {
 
   function handleCreateBookmark() {
     $('.container').on('click','.create-bookmark', event=> {
-      event.preventDefault();
-      console.log('creator clickskskskks');
+      event.preventDefault();     
       store.switchCreatingState();
       render();
     });
@@ -134,19 +133,21 @@ const bookmarkList = (function () {
       console.log(formData);    
 
       api.createBookmark(formData, () => {
-        store.switchCreatingState();
+        // store.switchCreatingState();
         api.getItems(items => {
           store.items = [];                             
-          items.forEach((item) => store.addItem(item));
+          items.forEach((item) => store.addItem(item));          
           render();
         });          
       });        
 
+      store.creatingState = !store.creatingState;
+      render();
       // } else {
       //   store.createFormChecker = false;
       //   render();
-      // }     
-    });
+      // }      
+    });    
   }
 
   function getItemIdFromElement(item) {
@@ -163,7 +164,6 @@ const bookmarkList = (function () {
       store.filterLevel = filterValue;
       console.log('Log from filerByRating fx',store.filterLevel);
 
-      // store.filterRatingStore(filterValue);
       render();
 
     });
